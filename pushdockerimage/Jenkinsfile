@@ -4,6 +4,12 @@ pipeline {
         DOCKERHUB_CREDS = credentials('dockerhub')
     }
     stages {
+          stage('Print Repo') {
+            steps {
+               echo $DOCKERHUB_CREDS_USR
+            }
+        }
+
         stage('Clone Repo') {
             steps {
                 checkout scm
@@ -34,5 +40,5 @@ pipeline {
 			sh 'docker logout'
 		}
 	 }
-    }
+}
 
