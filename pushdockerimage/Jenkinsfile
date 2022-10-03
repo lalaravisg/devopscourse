@@ -14,7 +14,7 @@ pipeline {
             steps {
                echo "The $DOCKERHUB_CREDS_USR = ${env.DOCKERHUB_CREDS_USR}"
             }
-        }
+         }
 
         stage('Clone Repo') {
             steps {
@@ -22,8 +22,13 @@ pipeline {
                 sh 'ls *'
             }
         }
-        
+
+        stage('Build Image') {
+            steps {
+                //sh 'docker build -t shanthiravisg/jenkinstest ./pushdockerimage/' (this will use the tag latest)
+		        sh 'docker build -t shanthiravisg/jenkinstest:$BUILD_NUMBER ./pushdockerimage/'
+            }
         }
-   
+    }
 }
 
