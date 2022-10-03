@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Print'){
             steps{
-                echo ${env.WORKSPACE}
+                echo "${env.WORKSPACE}"
             }
         }
         stage('Build') {
