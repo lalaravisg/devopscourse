@@ -4,9 +4,15 @@ pipeline {
         DOCKERHUB_CREDS = credentials('dockerhub')
     }
     stages {
-          stage('Print Repo') {
+        stage("Env Variables") {
             steps {
-               echo $DOCKERHUB_CREDS_USR
+                echo "The build number is ${env.BUILD_NUMBER}"
+            }
+        }
+
+         stage('Print Repo') {
+            steps {
+               echo "The $DOCKERHUB_CREDS_USR = ${env.DOCKERHUB_CREDS_USR}"
             }
         }
 
@@ -16,24 +22,24 @@ pipeline {
                 sh 'ls *'
             }
         }
-        stage('Build Image') {
-            steps {
-                //sh 'docker build -t shanthiravisg/jenkinstest ./pushdockerimage/' (this will use the tag latest)
-		sh 'docker build -t shanthiravisg/jenkinstest:$BUILD_NUMBER ./pushdockerimage/'
-            }
-        }
-        stage('Docker Login') {
-            steps {
-                //sh 'docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW' (this will leave the password visible)
-                sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'                
-                }
-            }
-        stage('Docker Push') {
-            steps {
-		//sh 'docker push shanthiravisg/jenkinstest' (this will use the tag latest)    
-                sh 'docker push shanthiravisg/jenkinstest:$BUILD_NUMBER'
-                }
-            }
+        // stage('Build Image') {
+        //     steps {
+        //         //sh 'docker build -t shanthiravisg/jenkinstest ./pushdockerimage/' (this will use the tag latest)
+		// sh 'docker build -t shanthiravisg/jenkinstest:$BUILD_NUMBER ./pushdockerimage/'
+        //     }
+        // }
+        // stage('Docker Login') {
+        //     steps {
+        //         //sh 'docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW' (this will leave the password visible)
+        //         sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'                
+        //         }
+        //     }
+        // stage('Docker Push') {
+        //     steps {
+		// //sh 'docker push shanthiravisg/jenkinstest' (this will use the tag latest)    
+        //         sh 'docker push shanthiravisg/jenkinstest:$BUILD_NUMBER'
+        //         }
+        //     }
         }
     post {
 		always {
