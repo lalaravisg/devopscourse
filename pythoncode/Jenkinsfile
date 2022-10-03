@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Print'){
             steps{
-                echo $JENKINS_HOME
+                echo ${env.WORKSPACE}
             }
         }
         stage('Build') {
